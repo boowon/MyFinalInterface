@@ -1,0 +1,2 @@
+            cnx.commit()
+            cnx.close()
