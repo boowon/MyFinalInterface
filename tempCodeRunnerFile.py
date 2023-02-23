@@ -1,2 +1,1 @@
-            cnx.commit()
-            cnx.close()
+lbl
