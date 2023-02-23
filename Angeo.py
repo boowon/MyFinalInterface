@@ -128,7 +128,7 @@ def pass_new_patient():
     
     #Part AI 
     frameanaly = LabelFrame(root, text="Analysis:", padx= 50, pady=50, font=btnfont2, background="white")
-    framephoto = LabelFrame(frameanaly)
+    framephoto = LabelFrame(frameanaly, bd="1", relief=SUNKEN)
     textlbl = Label(framephoto, text="Select Photo", font=btnfont2)
     addbtn = Button(framephoto,text="+", borderwidth=0, font=btnfont2, command=diaglog)
     textlbl.place(relx=0.5, rely=0.4, anchor=CENTER)
