@@ -5,8 +5,15 @@ from tkinter import font
 from tkcalendar import DateEntry
 from tkinter import filedialog
 import sqlite3
+from call_model import cnn_model
 
 
+def Pred(path):
+    global maladieName
+    maladieName = cnn_model(path)
+    print(maladieName)
+    messagebox.showinfo(title="Maladie", message=maladieName)
+    
 def confexit():
     yesno = messagebox.askyesno(title="Exit", message="Are sure you want to exit?") #return 1 fro yes and 0 for No
     if yesno == 1:
@@ -44,8 +51,8 @@ def submit():
         messagebox.showerror(title="ERROR", message="The First name field is empty")
 
 def diaglog():
-    global imgradio, lbl
-    photo = filedialog.askopenfile(initialdir="C:/Users/bougu/Downloads", title="Select the Photo", filetypes=(("png files","*.png"), ("All files","*.*")))
+    global imgradio, lbl, path
+    photo = filedialog.askopenfile(initialdir="C:/Users/bougu/Downloads", title="Select the Photo", filetypes=(("jpg files","*.jpg"),("png files","*.png"), ("All files","*.*")))
     addbtn.destroy() 
     textlbl.destroy() 
     analybtn['state'] = NORMAL
@@ -137,7 +144,7 @@ def pass_new_patient():
     frameanaly.grid_rowconfigure(0, weight=1)
     frameanaly.grid_columnconfigure(0, weight=1) 
     
-    analybtn = Button(frameanaly, text="Start analyse", font=btnfont1, state=DISABLED)
+    analybtn = Button(frameanaly, text="Start analyse", font=btnfont1, state=DISABLED, command=lambda: Pred(path))
     analybtn.grid(row=1, column=0, pady=20)
     
     dltphbtn = Button(frameanaly, text="Delete photo", font=btnfont1, state=DISABLED, command=redraw_selcet)
