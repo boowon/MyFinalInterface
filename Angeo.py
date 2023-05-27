@@ -12,13 +12,15 @@ def Pred(path):
     global maladieName
     maladieName = cnn_model(path)
     print(maladieName)
-    messagebox.showinfo(title="Maladie", message=maladieName)
+    maladie.set(maladieName)
+    
+
 '''  
 def confexit():
     yesno = messagebox.askyesno(title="Exit", message="Are sure you want to exit?") #return 1 fro yes and 0 for No
     if yesno == 1:
         root.quit()
-'''  
+'''
 def submit():
     #create a db or connect to it
     cnx = sqlite3.connect("basededonne.db")
@@ -76,9 +78,9 @@ def redraw_selcet():
     addbtn.place(relx=0.5, rely=0.5, anchor=CENTER)
     
 
-
 def forminfo():
-    global first_name, last_name, age, gender
+    global first_name, last_name, age, gender, maladie
+    
     from_font = font.Font(family='Courier', weight='bold', size=10)
     
     #inputs             
@@ -90,25 +92,33 @@ def forminfo():
     gender.set("Female")
     Radiobutton(gender_frame, text="Female", variable=gender, value="Female", background="#96765a", font=from_font).pack(side=LEFT)
     Radiobutton(gender_frame, text="Male", variable=gender, value="Male", background="#96765a", font=from_font).pack(side=LEFT)
+    maladie_frame = LabelFrame(frame_info, text="Maladie", pady=3, background="#96765a", font=from_font)
+    maladie = Entry(maladie_frame, width=20)
+
     
     first_name.grid(row= 0, column=1, pady=10)
     last_name.grid(row= 1, column=1, pady=10)
     age.grid(row= 2, column=1, pady=10)
     gender_frame.grid(row=3, column=0, columnspan=2,sticky=EW, pady=10)
+    maladie_frame.grid(row=4, column=0, columnspan=2,sticky=EW, pady=10)
+    maladie.pack()
+
     
     #titles
     first_name_lbl = Label(frame_info, text= "First Name", anchor=W, background="#96765a", font=from_font)
     last_name_lbl = Label(frame_info, text= "Last Name", anchor=W, background="#96765a", font=from_font)
     age_lbl = Label(frame_info, text= "Birthdate", anchor=W, background="#96765a", font=from_font)
+
     first_name_lbl.grid(row= 0, column=0, padx=5, pady=10, sticky=W+E)
     last_name_lbl.grid(row= 1, column=0, padx=5, pady=10,sticky=W+E)
     age_lbl.grid(row= 2, column=0, sticky=W+E)
+
     
     #buttoon
     btnfont = font.Font(family='Courier', weight='bold', size=10)
     #, command=submit
-    btn = Button(frame_info, text="Submit", background="White", font=btnfont, anchor=S)
-    btn.grid(row= 4, column=0, columnspan=2, sticky=N+S)
+    btn_submit = Button(frame_info, text="Submit", background="White", font=btnfont, anchor=S)
+    btn_submit.grid(row= 6, column=0, columnspan=2, sticky=N+S)
 
             
             
@@ -151,16 +161,16 @@ def pass_new_patient():
     #Frame for the photo
     
     frame_analy = LabelFrame(root, background="white")
-    frame_analy_in = LabelFrame(frame_analy, text="Analysis:", padx= 50, pady=50, font=frame_font, background="white")
+    frame_analy_in = LabelFrame(frame_analy, text="Analysis:", padx=30, pady=30, font=frame_font, background="white")
     frame_photo = LabelFrame(frame_analy_in, bd="1", relief=SUNKEN)
     text_lbl = Label(frame_photo, text="Select Photo", font=frame_font)
-    #
-    add_btn = Button(frame_photo,text="+", borderwidth=0, font=frame_font, command=diaglog)
+    #, command=diaglog
+    add_btn = Button(frame_photo,text="+", borderwidth=0, font=frame_font)
     text_lbl.place(relx=0.5, rely=0.4, anchor="center")
     add_btn.place(relx=0.5, rely=0.55, anchor="center")
     frame_photo.grid(row=0, column=0, sticky=NSEW)
     
-    frame_analy_in.grid(row=0, column=0, rowspan=2, sticky=NSEW, padx=15, pady=15)
+    frame_analy_in.grid(row=0, column=0, columnspan=2, sticky=NSEW, padx=15, pady=15)
     frame_analy_in.grid_rowconfigure(0, weight=1) 
     frame_analy_in.grid_columnconfigure(0, weight=1)
     
@@ -168,17 +178,17 @@ def pass_new_patient():
     #Analyse button
     #
     analy_btn = Button(frame_analy_in, text="Start analyse", font=btn_font1, state=DISABLED, command=lambda: Pred(path))
-    analy_btn.grid(row=1, column=0, pady=30, ipadx=60)
+    analy_btn.grid(row=1, column=0, pady=15, ipadx=60)
 
     
     #Delete photo button
     #
     dltph_btn = Button(frame_analy, text="Delete photo", font=btn_font1, state=DISABLED, command=redraw_selcet)
-    dltph_btn.grid(row=2, column=0, pady=20, padx=10, sticky=W+S)
+    dltph_btn.grid(row=1, column=0, pady=20, padx=10, sticky=W+S)
     
     #Return Home button
     return_btn = Button(frame_analy, text="Return Home", font=btn_font1, command=return_home)
-    return_btn.grid(row=2, column=1, pady=20, sticky=S)
+    return_btn.grid(row=1, column=1, pady=20, sticky=S)
     
     frame_analy.grid(row=1, column=1, sticky=NSEW) 
     
