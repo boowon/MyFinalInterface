@@ -8,12 +8,6 @@ import sqlite3
 from call_model import cnn_model
 
 
-def Pred(path):
-    global maladieName
-    maladieName = cnn_model(path)
-    print(maladieName)
-    maladie.set(maladieName)
-    
 
 '''  
 def confexit():
@@ -67,19 +61,10 @@ def diaglog():
     lbl = Label(frame_photo, image=imgradio)
     lbl.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-def redraw_selcet():
-    btnfont2 = font.Font(family='Courier', weight='bold', size=13)
-    lbl.destroy()
-    analy_btn['state'] = DISABLED
-    dltph_btn['state'] = DISABLED
-    textlbl = Label(frame_photo, text="Select Photo", font=btnfont2)
-    addbtn = Button(frame_photo,text="+", borderwidth=0, font=btnfont2, command=diaglog)
-    textlbl.place(relx=0.5, rely=0.4, anchor=CENTER)
-    addbtn.place(relx=0.5, rely=0.5, anchor=CENTER)
     
 
 def forminfo():
-    global first_name, last_name, age, gender, maladie
+    global first_name, last_name, age, gender, maladie_lbl, maladie_frame, frame_info, from_font
     
     from_font = font.Font(family='Courier', weight='bold', size=10)
     
@@ -93,7 +78,7 @@ def forminfo():
     Radiobutton(gender_frame, text="Female", variable=gender, value="Female", background="#96765a", font=from_font).pack(side=LEFT)
     Radiobutton(gender_frame, text="Male", variable=gender, value="Male", background="#96765a", font=from_font).pack(side=LEFT)
     maladie_frame = LabelFrame(frame_info, text="Maladie", pady=3, background="#96765a", font=from_font)
-    maladie = Entry(maladie_frame, width=20)
+    maladie_lbl = Label(maladie_frame, text=' ', font=from_font, background="white", width=20)
 
     
     first_name.grid(row= 0, column=1, pady=10)
@@ -101,7 +86,7 @@ def forminfo():
     age.grid(row= 2, column=1, pady=10)
     gender_frame.grid(row=3, column=0, columnspan=2,sticky=EW, pady=10)
     maladie_frame.grid(row=4, column=0, columnspan=2,sticky=EW, pady=10)
-    maladie.pack()
+    maladie_lbl.pack()
 
     
     #titles
@@ -120,7 +105,31 @@ def forminfo():
     btn_submit = Button(frame_info, text="Submit", background="White", font=btnfont, anchor=S)
     btn_submit.grid(row= 6, column=0, columnspan=2, sticky=N+S)
 
-            
+
+def Pred(path):
+    global maladieName, maladie_lbl
+    maladieName = cnn_model(path)
+    print(maladieName)
+    maladie_lbl.destroy()
+    maladie_lbl = Label(maladie_frame, text=maladieName, font=from_font, background="white", width=20)
+    maladie_lbl.pack()
+    
+
+def redraw_selcet():
+    global maladie_lbl
+    btnfont2 = font.Font(family='Courier', weight='bold', size=13)
+    lbl.destroy()
+    maladie_lbl.destroy()
+    maladie_lbl = Label(maladie_frame, text=' ', font=from_font, background="white", width=20)
+    maladie_lbl.pack()
+    analy_btn['state'] = DISABLED
+    dltph_btn['state'] = DISABLED
+    textlbl = Label(frame_photo, text="Select Photo", font=btnfont2)
+    addbtn = Button(frame_photo,text="+", borderwidth=0, font=btnfont2, command=diaglog)
+    textlbl.place(relx=0.5, rely=0.4, anchor=CENTER)
+    addbtn.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+                
             
 #Frame for New Patient  
 def pass_new_patient():
@@ -164,8 +173,8 @@ def pass_new_patient():
     frame_analy_in = LabelFrame(frame_analy, text="Analysis:", padx=30, pady=30, font=frame_font, background="white")
     frame_photo = LabelFrame(frame_analy_in, bd="1", relief=SUNKEN)
     text_lbl = Label(frame_photo, text="Select Photo", font=frame_font)
-    #, command=diaglog
-    add_btn = Button(frame_photo,text="+", borderwidth=0, font=frame_font)
+    #
+    add_btn = Button(frame_photo,text="+", borderwidth=0, font=frame_font, command=diaglog)
     text_lbl.place(relx=0.5, rely=0.4, anchor="center")
     add_btn.place(relx=0.5, rely=0.55, anchor="center")
     frame_photo.grid(row=0, column=0, sticky=NSEW)
