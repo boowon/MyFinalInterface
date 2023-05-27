@@ -25,17 +25,3 @@ def cnn_model(path):
     maladie = dict_maladie[pred]
     return maladie
     
-
-def cnn_test(path):
-    image = tf.io.read_file(path)
-    image = tf.image.decode_image(image,1)#creat image into pixels
-    image = tf.image.convert_image_dtype(image, dtype=tf.float32) #normalize x/255
-    image = tf.image.resize(image, [60,60]) # (60,60,3)
-    image = tf.expand_dims(image, axis=0) # (1,60,60,3)
-    model = load_model('C:/Users/bougu/Desktop/STUDY/CODING/DL-Diabetic/model ver2' , compile=False)
-    pred = model.predict(image) # [0.005, 0.00003, 0.99, 0.00 ....]
-    print(pred)
-    if pred<0.5:
-        return "Normal"
-    else:
-        return "Diabetic"
