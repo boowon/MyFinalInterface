@@ -3,6 +3,8 @@ from keras.models import load_model
 import numpy as np
 import cv2
 import tensorflow_text as tf_text
+import os
+
 
 
 
@@ -14,7 +16,7 @@ def cnn_model(path):
     image = tf.image.resize(image, [428,480])
     image = tf.expand_dims(image, axis=0) # (1,x,y,1)
     
-    model = load_model(r'C:\Users\bougu\Documents\GitHub\MyFinalInterface\Model', compile=False)
+    model = load_model(os.getcwd()+r'\MyFinalInterface\Model', compile=False)
     
     dict_maladie = {0: 'Rien a signaler', 1: 'Diabtic', 2: 'Occlusion', 3: 'Oedeme papillaire', 4: 'Myopie', 5: 'Maculophatie'}
 
